@@ -5,80 +5,87 @@ import java.util.*;
 // import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import static com.company.GameMsg.showMessage;
+
+/**
+ * ゲーム全体を制御するクラス
+ */
 public class Game {
 
+    // 持ち点
     static int point = 1000;
+    // 掛け点
     //int betPoint = 0;
+    // プレイヤーのカードの合計点数
     int playerPoint;
+    // ディーラーのカードの合計点数
     int dealerPoint;
+    // プレイヤーが所持しているカードのリスト
+    List<Card> playerCardList;
+    // ディーラーが所持しているカードのリスト
+    List<Card> dealerCardList;
 
+    /**
+     * ゲーム開始メソッド
+     */
     public void gameStart() {
         //Bet(msg);
-        GameMsg msg = new GameMsg();
-        msg.showMessage(GameMsg.MSG_START);
+        // ゲーム開始のメッセージを表示
+        showMessage(GameMsg.MSG_START);
+        // カードの山を生成
         CardStuck cs = new CardStuck();
-        List<Card> playerCardList = cs.getCard(2);
-        List<Card> dealerCardList = cs.getCard(2);
+        // プレイヤーに2枚カードを配る
+        playerCardList = cs.getCard(2);
+        // ディーラーに2枚カードを配る
+        dealerCardList = cs.getCard(2);
+        // Handクラスのインスタンス変数生成
         Hand hand = new Hand();
 
-        showCard(playerCardList, "プレイヤー", false);
-        showCard(dealerCardList, "ディーラー", true);
+        // プレイヤーのカードを表示
+        showCard(playerCardList, GameMsg.MSG_PLAYER, false);
+        // ディーラーのカードを表示
+        showCard(dealerCardList, GameMsg.MSG_DEALER, true);
 
-        boolean isOnce = true;
-        while(true) {
-            if(isOnce) {
-                msg.showMessage(GameMsg.MSG_DRAWCARD);
-            }
-            else {
-                msg.showMessage(GameMsg.MSG_DRAWCARD_AGAIN);
-            }
+        // プレイヤーがカードを引く
+        playerDraw(cs);
+        // ディーラーがカードを引く
+        dealerDraw(cs,hand);
 
-            Scanner scan = new Scanner(System.in);
-            String input = scan.nextLine();
-
-            if(input.equalsIgnoreCase("y")) {
-                playerCardList.add(cs.getOneCard());
-                System.out.println(playerCardList.get(playerCardList.size() - 1).getString());
-                isOnce = false;
-            }
-            else if(input.equalsIgnoreCase("n")) {
-                break;
-            }
-            else {
-                msg.showMessage(GameMsg.MSG_YESORNO);
-            }
-        }
-
-        dealerPoint = hand.getPoint(dealerCardList);
-        while(dealerPoint < 17) {
-            dealerCardList.add(cs.getOneCard());
-            dealerPoint = hand.getPoint(dealerCardList);
-            if(dealerPoint == -1) {
-                break;
-            }
-        }
-
-        showCard(playerCardList, "プレイヤー", false);
+        // プレイヤーのカードを表示
+        showCard(playerCardList, GameMsg.MSG_PLAYER, false);
+        // プレイヤーの合計点数を取得
         playerPoint = hand.getPoint(playerCardList);
+        // 合計点数が-1の場合、バースト
         if(playerPoint == -1) {
-            msg.showMessage(GameMsg.MSG_BURST);
+            showMessage(GameMsg.MSG_BURST);
         }
         else {
             System.out.println(playerPoint);
         }
-        showCard(dealerCardList, "ディーラー", false);
+        // ディーラーのカードを表示
+        showCard(dealerCardList, GameMsg.MSG_DEALER, false);
+        // ディーラーの合計点数を取得
         dealerPoint = hand.getPoint(dealerCardList);
+        // 合計点数が-1の場合、バースト
         if(dealerPoint == -1){
-            msg.showMessage(GameMsg.MSG_BURST);
+            showMessage(GameMsg.MSG_BURST);
         }
         else {
             System.out.println(dealerPoint);
         }
     }
 
+    /**
+     * 所持しているカードを表示するメソッド
+     * @param cardList
+     * @param name
+     * @param isDealer
+     */
     public void showCard(List<Card> cardList, String name, boolean isDealer) {
         System.out.print(name + "のカード：");
+        // カードの枚数分ループ
         for(int i = 0; i < cardList.size(); i++) {
+            // ディーラーの場合、２枚目以降を*として表示
             if(isDealer) {
                 if(i == 0) {
                     System.out.print(cardList.get(i).getString());
@@ -97,6 +104,63 @@ public class Game {
             }
         }
         System.out.print("\r\n");
+    }
+
+    /**
+     * プレイヤーがカードを引くメソッド
+     * @param cs
+     */
+    public void playerDraw(CardStuck cs) {
+        // ループが一回目か判定するフラグ
+        boolean isOnce = true;
+        // yかnが入力されるまでループ
+        while(true) {
+            if(isOnce) {
+                showMessage(GameMsg.MSG_DRAWCARD);
+            }
+            else {
+                showMessage(GameMsg.MSG_DRAWCARD_AGAIN);
+            }
+
+            Scanner scan = new Scanner(System.in);
+            // 入力
+            String input = scan.nextLine();
+
+            // 大文字小文字に関係なく、yが入力された場合、１枚カードを引き、引いたカードを表示
+            // isOnceフラグをfalseにする
+            if(input.equalsIgnoreCase("y")) {
+                playerCardList.add(cs.getOneCard());
+                System.out.println(playerCardList.get(playerCardList.size() - 1).getString());
+                isOnce = false;
+            }
+            // 大文字小文字に関係なく、nが入力された場合、ループを抜ける
+            else if(input.equalsIgnoreCase("n")) {
+                break;
+            }
+            // yかn以外が入力された場合、メッセージを表示し、次のループへ
+            else {
+                showMessage(GameMsg.MSG_YESORNO);
+            }
+        }
+    }
+
+    /**
+     * ディーラーがカードを引くメソッド
+     * @param cs
+     * @param hand
+     */
+    public void dealerDraw(CardStuck cs, Hand hand) {
+        // ディーラーの合計点数を取得
+        dealerPoint = hand.getPoint(dealerCardList);
+        // ディーラーの合計点数が17より小さい場合、カードを1枚引く
+        while(dealerPoint < 17) {
+            dealerCardList.add(cs.getOneCard());
+            dealerPoint = hand.getPoint(dealerCardList);
+            // ディーラーの合計点数が-1の場合、ループを抜ける
+            if(dealerPoint == -1) {
+                break;
+            }
+        }
     }
 
     /*private int Bet(GameMsg msg) {
