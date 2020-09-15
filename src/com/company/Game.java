@@ -15,7 +15,7 @@ public class Game {
     // 持ち点
     static int point = 1000;
     // 掛け点
-    //int betPoint = 0;
+    int betPoint = 0;
     // プレイヤーのカードの合計点数
     int playerPoint;
     // ディーラーのカードの合計点数
@@ -29,49 +29,57 @@ public class Game {
      * ゲーム開始メソッド
      */
     public void gameStart() {
-        //Bet(msg);
         // ゲーム開始のメッセージを表示
         showMessage(GameMsg.MSG_START);
-        // カードの山を生成
-        CardStuck cs = new CardStuck();
-        // プレイヤーに2枚カードを配る
-        playerCardList = cs.getCard(2);
-        // ディーラーに2枚カードを配る
-        dealerCardList = cs.getCard(2);
-        // Handクラスのインスタンス変数生成
-        Hand hand = new Hand();
+        while(0 < point && point < 2000) {
+            bet();
+            // カードの山を生成
+            CardStuck cs = new CardStuck();
+            // プレイヤーに2枚カードを配る
+            playerCardList = cs.getCard(2);
+            // ディーラーに2枚カードを配る
+            dealerCardList = cs.getCard(2);
+            // Handクラスのインスタンス変数生成
+            Hand hand = new Hand();
 
-        // プレイヤーのカードを表示
-        showCard(playerCardList, GameMsg.MSG_PLAYER, false);
-        // ディーラーのカードを表示
-        showCard(dealerCardList, GameMsg.MSG_DEALER, true);
+            // プレイヤーのカードを表示
+            showCard(playerCardList, GameMsg.MSG_PLAYER, false);
+            // ディーラーのカードを表示
+            showCard(dealerCardList, GameMsg.MSG_DEALER, true);
 
-        // プレイヤーがカードを引く
-        playerDraw(cs);
-        // ディーラーがカードを引く
-        dealerDraw(cs,hand);
+            // プレイヤーがカードを引く
+            playerDraw(cs);
+            // ディーラーがカードを引く
+            dealerDraw(cs, hand);
 
-        // プレイヤーのカードを表示
-        showCard(playerCardList, GameMsg.MSG_PLAYER, false);
-        // プレイヤーの合計点数を取得
-        playerPoint = hand.getPoint(playerCardList);
-        // 合計点数が-1の場合、バースト
-        if(playerPoint == -1) {
-            showMessage(GameMsg.MSG_BURST);
-        }
-        else {
-            System.out.println(playerPoint);
-        }
-        // ディーラーのカードを表示
-        showCard(dealerCardList, GameMsg.MSG_DEALER, false);
-        // ディーラーの合計点数を取得
-        dealerPoint = hand.getPoint(dealerCardList);
-        // 合計点数が-1の場合、バースト
-        if(dealerPoint == -1){
-            showMessage(GameMsg.MSG_BURST);
-        }
-        else {
-            System.out.println(dealerPoint);
+            // プレイヤーのカードを表示
+            showCard(playerCardList, GameMsg.MSG_PLAYER, false);
+            // プレイヤーの合計点数を取得
+            playerPoint = hand.getPoint(playerCardList);
+            // 合計点数が-1の場合、バースト
+            BLOCK:
+            {
+                if (playerPoint == -1) {
+                    showMessage(GameMsg.MSG_BURST);
+                    break BLOCK;
+                } else {
+                    System.out.println(playerPoint);
+                }
+                // ディーラーのカードを表示
+                showCard(dealerCardList, GameMsg.MSG_DEALER, false);
+                // ディーラーの合計点数を取得
+                dealerPoint = hand.getPoint(dealerCardList);
+                // 合計点数が-1の場合、バースト
+                if (dealerPoint == -1) {
+                    showMessage(GameMsg.MSG_BURST);
+                } else {
+                    System.out.println(dealerPoint);
+                }
+            }
+            Judge judge = new Judge();
+            // 勝敗を判定
+            int num = judge.judgeIssue(playerPoint, dealerPoint, playerCardList, dealerCardList);
+            updatePoint(num);
         }
     }
 
@@ -163,18 +171,22 @@ public class Game {
         }
     }
 
-    /*private int Bet(GameMsg msg) {
+    /**
+     * 賭け金を決定するメソッド
+     */
+
+    private int bet() {
         boolean hasError = true;
 
         while(true) {
             try {
+                showMessage("現在の所持ポイント：" + point + "\r\n");
                 if (hasError) {
-                    msg.ShowMessage(GameMsg.MSG_BET_TRUE);
+                    showMessage(GameMsg.MSG_BET_TRUE);
                 } else {
-                    msg.ShowMessage(GameMsg.MSG_BET_FALSE);
+                    showMessage(GameMsg.MSG_BET_FALSE);
                 }
 
-                msg.ShowMessage(GameMsg.MSG_POINT);
                 Scanner scan = new Scanner(System.in);
                 betPoint = scan.nextInt();
 
@@ -193,7 +205,48 @@ public class Game {
         return betPoint;
     }
 
-    private List<String> SetCard (CardStuck cs) {
+    /**
+     * 所持ポイントを更新するメソッド
+     * @param num
+     */
+    public void updatePoint(int num) {
+        if(num == 0) {
+            if(playerCardList.size() == 2 &&
+                    (playerCardList.contains("S1") &&
+                            (playerCardList.get(0).getCardNumber() == 11 || playerCardList.get(1).getCardNumber() == 11))) {
+                point += betPoint * 15;
+            }
+            else if(playerCardList.size() == 2 &&
+                    (!playerCardList.contains("S1") &&
+                            (playerCardList.get(0).getCardNumber() == 11 || playerCardList.get(1).getCardNumber() == 11))) {
+                point += betPoint * 5;
+            }
+            else if(playerCardList.size() == 2 &&
+                    (playerCardList.get(0).getCardNumber() == 1 || playerCardList.get(1).getCardNumber() == 1) &&
+                    (playerCardList.get(0).getCardNumber() == 11 || playerCardList.get(1).getCardNumber() == 11)) {
+                point += betPoint * 2.5;
+            }
+            else if(playerCardList.size() == 2 &&
+                    (playerCardList.get(0).getCardNumber() == 7 &&
+                            playerCardList.get(1).getCardNumber() == 7 &&
+                            playerCardList.get(2).getCardNumber() == 7)) {
+                point += betPoint * 10;
+            }
+            else if(playerCardList.size() >= 6 && playerPoint <= 21) {
+                point += betPoint * 5;
+            }
+            else if(playerCardList.size() >= 7 && playerPoint <= 21) {
+                point += betPoint * 10;
+            }
+            else {
+                point += betPoint;
+            }
+        }
+        else if(num == 1) {
+            point -= betPoint;
+        }
+        else {
 
-    }*/
+        }
+    }
 }
