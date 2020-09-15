@@ -1,7 +1,15 @@
 package com.company;
 
+/**
+ * メッセージ関連のオブジェクトを保持するクラス
+ */
 public class GameMsg {
 
+    /**
+     * 定数定義
+     */
+    final static String MSG_PLAYER = "プレイヤー";
+    final static String MSG_DEALER = "ディーラー";
     final static String MSG_START = "ゲームを開始します。\r\n";
     final static String MSG_BET_TRUE = "betするポイントを入力してください：";
     final static String MSG_BET_FALSE = "入力された値ではbetできません。もう一度入力してください：";
@@ -11,7 +19,7 @@ public class GameMsg {
     final static String MSG_YESORNO = "y(Y)かn(N)を入力してください。\r\n";
     final static String MSG_BURST = "バーストしました。\r\n";
 
-    public void showMessage(String judge, String message) {
+    public static void showMessage(String judge, String message) {
         if(judge == "勝ち") {
 
         }
@@ -26,7 +34,11 @@ public class GameMsg {
         }
     }
 
-    public void showMessage(String message) {
+    /**
+     * メッセージを表示するメソッド
+     * @param message
+     */
+    public static void showMessage(String message) {
         System.out.print(message);
     }
 
