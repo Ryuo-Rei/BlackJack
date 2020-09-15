@@ -13,9 +13,9 @@ public class Game {
     int dealerPoint;
 
     public void gameStart() {
-        //GameMsg msg = new GameMsg();
         //Bet(msg);
-
+        GameMsg msg = new GameMsg();
+        msg.showMessage(GameMsg.MSG_START);
         CardStuck cs = new CardStuck();
         List<Card> playerCardList = cs.getCard(2);
         List<Card> dealerCardList = cs.getCard(2);
@@ -27,10 +27,10 @@ public class Game {
         boolean isOnce = true;
         while(true) {
             if(isOnce) {
-                System.out.print("カードを引きますか？(y:はい n:いいえ)：");
+                msg.showMessage(GameMsg.MSG_DRAWCARD);
             }
             else {
-                System.out.print("もう一度カードを引きますか？(y:はい n:いいえ)：");
+                msg.showMessage(GameMsg.MSG_DRAWCARD_AGAIN);
             }
 
             Scanner scan = new Scanner(System.in);
@@ -45,7 +45,7 @@ public class Game {
                 break;
             }
             else {
-                System.out.println("y(Y)かn(N)を入力してください。");
+                msg.showMessage(GameMsg.MSG_YESORNO);
             }
         }
 
@@ -61,7 +61,7 @@ public class Game {
         showCard(playerCardList, "プレイヤー", false);
         playerPoint = hand.getPoint(playerCardList);
         if(playerPoint == -1) {
-            System.out.println("バーストしました。");
+            msg.showMessage(GameMsg.MSG_BURST);
         }
         else {
             System.out.println(playerPoint);
@@ -69,7 +69,7 @@ public class Game {
         showCard(dealerCardList, "ディーラー", false);
         dealerPoint = hand.getPoint(dealerCardList);
         if(dealerPoint == -1){
-            System.out.println("バーストしました。");
+            msg.showMessage(GameMsg.MSG_BURST);
         }
         else {
             System.out.println(dealerPoint);
