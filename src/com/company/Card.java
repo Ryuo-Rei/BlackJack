@@ -39,7 +39,7 @@ public class Card {
      * 取得したカードマークと数字を合成してカードを作成
      * @return card
      */
-    public String getString() {
+    public String getCardInfo() {
         // cardIndex / 13の商が0の場合、Spade
         if(cardMark == 0) {
             card = "S" + cardNumber;
