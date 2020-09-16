@@ -18,7 +18,7 @@ public class Judge {
      * @return num(0:プレイヤー勝利、1:ディーラー勝利、2:引き分け)
      */
     public int judgeIssue(int playerPoint, int dealerPoint, List<Card> playerCardList, List<Card> dealerCardList) {
-        int num = 2;
+        int num;
         // プレイヤーがバーストした場合、もしくは、プレイヤーの合計点数がディーラーの合計点数よりも小さい場合、ディーラーの勝ち
         if(playerPoint == -1 || playerPoint < dealerPoint) {
             showMessage(MSG_DEALERWIN);
