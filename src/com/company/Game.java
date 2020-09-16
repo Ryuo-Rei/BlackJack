@@ -218,6 +218,8 @@ public class Game {
      * @param num 勝敗判定(0:プレイヤー勝利、1:ディーラー勝利、2:引き分け)
      */
     public void updatePoint(int num) {
+        // 見てほしい箇所 ここから-----------
+
         // プレイヤーが勝利した場合
         if (num == 0) {
             int value1 = playerCardList.get(0).getCardNumber();
@@ -265,6 +267,8 @@ public class Game {
                 point += betPoint;
             }
         }
+        // ここまで-----------
+
         // ディーラーが勝利した場合、所持ポイントから賭けポイントを引く
         else if (num == 1) {
             showMessage("-" + betPoint + "点\r\n");
