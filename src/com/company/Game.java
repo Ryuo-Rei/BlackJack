@@ -274,6 +274,10 @@ public class Game {
         }
     }
 
+    /**
+     * 所持カードにSpadeのAceが含まれるかを判定するメソッド
+     * @return isSpadeAce
+     */
     private boolean isSpadeAce() {
         boolean isSpadeAce = true;
         if(!playerCardList.get(0).getCardInfo().equals(GameMsg.MSG_SPADEACE) &&
