@@ -19,8 +19,8 @@ public class Judge {
      */
     public int judgeIssue(int playerPoint, int dealerPoint, List<Card> playerCardList, List<Card> dealerCardList) {
         int num = 2;
-        // プレイヤーがバーストした場合、ディーラーの勝ち
-        if(playerPoint == -1) {
+        // プレイヤーがバーストした場合、もしくは、プレイヤーの合計点数がディーラーの合計点数よりも小さい場合、ディーラーの勝ち
+        if(playerPoint == -1 || playerPoint < dealerPoint) {
             showMessage(MSG_DEALERWIN);
             num = 1;
         }
@@ -28,11 +28,6 @@ public class Judge {
         else if(playerPoint > dealerPoint) {
             showMessage(MSG_PLAYERWIN);
             num = 0;
-        }
-        // プレイヤーの合計点数がディーラーの合計点数よりも小さい場合、ディーラーの勝ち
-        else if(playerPoint < dealerPoint) {
-            showMessage(MSG_DEALERWIN);
-            num = 1;
         }
         // プレイヤーの合計点数が21、かつ、プレイヤーとディーラーの合計点数が同じ場合、(両方ブラックジャック)カードの枚数で勝敗判定する
         else if(playerPoint == 21 && playerPoint == dealerPoint) {
