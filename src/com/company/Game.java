@@ -275,15 +275,10 @@ public class Game {
     }
 
     private boolean isSpadeAce() {
-        boolean isSpadeAce;
-        if(playerCardList.get(0).getCardInfo().equals(GameMsg.MSG_SPADEACE)) {
-            isSpadeAce= true;
-        }
-        else if(playerCardList.get(1).getCardInfo().equals(GameMsg.MSG_SPADEACE)) {
-            isSpadeAce = true;
-        }
-        else {
-            isSpadeAce = false;
+        boolean isSpadeAce = true;
+        if(!playerCardList.get(0).getCardInfo().equals(GameMsg.MSG_SPADEACE) &&
+                !playerCardList.get(1).getCardInfo().equals(GameMsg.MSG_SPADEACE)) {
+            isSpadeAce= false;
         }
         return isSpadeAce;
     }
