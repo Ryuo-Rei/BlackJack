@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="2ee4ebbb-f873-4e15-9b6c-8b171affca12" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -55,6 +73,17 @@
     </task>
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
     <state x="2131" y="221" key="#com.intellij.ide.util.MemberChooser" timestamp="1600061712360">
       <screen x="1366" y="0" width="1920" height="1040" />
@@ -68,22 +97,22 @@
       <screen x="1366" y="0" width="1920" height="1040" />
     </state>
     <state x="2100" y="165" key="#自動インポート/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1600052509594" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1600240871038">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1600302940175">
       <screen x="1366" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1600240871038" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1600240871038">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1600302940175" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1600302940175">
       <screen x="1366" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1600240871038" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1600240871038">
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1600302940175" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1600302940175">
       <screen x="1366" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1600240871038" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1600240871038">
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1600302940175" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1600302940175">
       <screen x="1366" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1600240871038" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1600302940175" />
     <state width="1877" height="346" key="GridCell.Tab.1.bottom" timestamp="1600230989499">
       <screen x="1366" y="0" width="1920" height="1040" />
     </state>
@@ -100,6 +129,10 @@
       <screen x="1366" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="346" key="GridCell.Tab.1.right/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1600230989499" />
+    <state x="1458" y="92" width="1736" height="856" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1600303318862">
+      <screen x="1366" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1458" y="92" width="1736" height="856" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1600303318862" />
     <state x="1850" y="256" width="951" height="629" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1600131297258">
       <screen x="1366" y="0" width="1920" height="1040" />
     </state>

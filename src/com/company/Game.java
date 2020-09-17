@@ -20,7 +20,7 @@ public class Game {
     // ディーラーのカードの合計点数
     int dealerPoint;
     // プレイヤーが所持しているカードのリスト
-    List<Card> playerCardList;
+    List<Card> playerCardList = new ArrayList<Card>();
     // ディーラーが所持しているカードのリスト
     List<Card> dealerCardList;
 
@@ -36,9 +36,9 @@ public class Game {
             // カードの山を生成
             CardStuck cs = new CardStuck();
             // プレイヤーに2枚カードを配る
-            playerCardList = cs.getCard(2);
-            // playerCardList.add(new Card(0));
-            // playerCardList.add(new Card(12));
+            // playerCardList = cs.getCard(2);
+            playerCardList.add(new Card(13));
+            playerCardList.add(new Card(9));
             // ディーラーに2枚カードを配る
             dealerCardList = cs.getCard(2);
             // Handクラスのインスタンス変数生成
@@ -222,50 +222,11 @@ public class Game {
 
         // プレイヤーが勝利した場合
         if (num == 0) {
-            int value1 = playerCardList.get(0).getCardNumber();
-            int value2 = playerCardList.get(1).getCardNumber();
-            // SpadeのAceとJackでブラックジャックになった場合、賭けポイントを15倍する
-            if (playerCardList.size() == 2 && playerPoint == 21 &&
-                    (isSpadeAce() &&
-                    (value1 == 11 || value2 == 11))) {
 
-                showMessage("+" + betPoint * 15 + "点\r\n");
-                point += betPoint * 15;
-            }
-            // Spade以外のAceとJackでブラックジャックになった場合、賭けポイントを5倍する
-            else if (playerCardList.size() == 2 && playerPoint == 21 &&
-                    (!isSpadeAce() &&
-                    (value1 == 11 || value2 == 11))) {
-                showMessage("+" + betPoint * 5 + "点\r\n");
-                point += betPoint * 5;
-            }
-            // AceとJack以外の絵札でブラックジャックになった場合、賭けポイントを2.5倍する
-            else if (playerCardList.size() == 2 && playerPoint == 21 &&
-                    ((value1 == 1 || value2 == 1) &&
-                    (value1 >= 12 || value2 >= 12))) {
-                showMessage("+" + betPoint * 2.5 + "点\r\n");
-                point += betPoint * 2.5;
-            }
-            // カードが三枚とも7の場合、賭けポイントを10倍する
-            else if (playerCardList.size() == 3 &&
-                    (value1 == 7 && value2 == 7 &&
-                            playerCardList.get(2).getCardNumber() == 7)) {
-                showMessage("+" + betPoint * 10 + "点\r\n");
-                point += betPoint * 10;
-            }
-            // 手札が7枚以上かつ合計点数が21点以下の場合、賭けポイントを10倍する。
-            else if (playerCardList.size() >= 7 && playerPoint <= 21) {
-                showMessage("+" + betPoint * 10 + "点\r\n");
-                point += betPoint * 10;
-            }
-            // 手札が6枚以上かつ合計点数が21点以下の場合、賭けポイントを5倍する。
-            else if (playerCardList.size() >= 6 && playerPoint <= 21) {
-                showMessage("+" + betPoint * 5 + "点\r\n");
-                point += betPoint * 5;
-            } else {
-                showMessage("+" + betPoint + "点\r\n");
-                point += betPoint;
-            }
+            double division = GetDivision();
+            int earnedPoint = (int) (betPoint * division);
+            showMessage("+" + earnedPoint + "点\r\n");
+            point += earnedPoint;
         }
         // ここまで-----------
 
@@ -276,6 +237,50 @@ public class Game {
         } else {
             showMessage("±0点");
         }
+    }
+
+    private double GetDivision() {
+        int value1 = playerCardList.get(0).getCardNumber();
+        int value2 = playerCardList.get(1).getCardNumber();
+
+        // カード枚数
+        int cardCount = playerCardList.size();
+
+        // ２枚のカードでブラックジャックになった場合
+        if (cardCount == 2 && playerPoint == 21) {
+            // SpadeのAceとJackでブラックジャックになった場合、賭けポイントを15倍する
+            if(isSpadeAce() && (value1 == 11 || value2 == 11)) {
+                return 15;
+            }
+            // Spade以外のAceとJackでブラックジャックになった場合、賭けポイントを5倍する
+            if(value1 == 11 || value2 == 11){
+                return 5;
+            }
+
+            // AceとJack以外の絵札でブラックジャックになった場合、賭けポイントを2.5倍する
+            if(value1 >= 12 || value2 >= 12) {
+                return 2.5;
+            }
+
+            return 1;
+        }
+
+        // カードが三枚とも7の場合、賭けポイントを10倍する
+        if (cardCount == 3 && value1 == 7 && value2 == 7 && playerCardList.get(2).getCardNumber() == 7) {
+            return 10;
+        }
+
+        // 手札が7枚以上かつ合計点数が21点以下の場合、賭けポイントを10倍する。
+        if (cardCount >= 7) {
+            return 10;
+        }
+
+        // 手札が6枚以上かつ合計点数が21点以下の場合、賭けポイントを5倍する。
+        if (cardCount >= 6) {
+            return 5;
+        }
+
+        return 1;
     }
 
     /**
